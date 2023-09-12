@@ -2,6 +2,7 @@
   "name": "youtube_dl",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://anil-bothe.github.io/youtube_dl",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
