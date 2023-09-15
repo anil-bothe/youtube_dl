@@ -1,12 +1,12 @@
 "use client";
+import { setPageLoading } from "@/redux/counterSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { YT_AUDIO_URL } from "@/utility/constants";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Button, Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "@/redux/hooks";
-import { setPageLoading } from "@/redux/counterSlice";
 
 export default function AudioPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,13 +18,19 @@ export default function AudioPage() {
     dispatch(setPageLoading({ isLoading: false, msg: "" }));
   });
 
-  function downloadURI(uri: string, file_name: string) {
+  function downloadURI(uri: string) {
     let link = document.createElement("a");
     link.href = uri;
-    link.download = file_name + ".mp3";
+    link.download = "youtube_audio.mp3";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    setErrorMsg("Please wait download start shortly.");
+    setTimeout(() => {
+      setErrorMsg("");
+      setIsLoading(false);
+    }, 15000);
   }
 
   const onSearchClick = () => {
@@ -32,45 +38,14 @@ export default function AudioPage() {
 
     setIsLoading(true);
     setErrorMsg("Getting Info ..");
-    console.log(url);
 
     if (url.indexOf("youtube") == -1) {
       setErrorMsg("Please enter valid URL");
       setIsLoading(false);
       return;
     }
-
-    fetch(YT_AUDIO_URL + url.trim())
-      .then((res) => {
-        const header = res.headers.get("Content-Disposition");
-        const parts = header!.split(";");
-        
-        setErrorMsg("Converting ..");
-        return { blob: res.blob(), filename: parts[1].split("=")[1]};
-      })
-      .then(async (obj) => {
-        const blob: Promise<Blob> = obj.blob;
-        const filename = obj.filename.trim().split(".mp3")[0];
-        
-        if ((await blob).size == 0) {
-          setErrorMsg("File not converted! Something went wrong :(");
-          setIsLoading(false);
-          return;
-        }
-
-        setErrorMsg("Almost done ..");
-        const downloadUrl = window.URL.createObjectURL(await blob);
-        downloadURI(downloadUrl, filename);
-        URL.revokeObjectURL(downloadUrl);
-
-        setIsLoading(false);
-        setErrorMsg("Thanks for downloading ..");
-      })
-      .catch((e) => {
-        console.log(e)
-        setErrorMsg("Something went wrong!");
-        setIsLoading(false);
-      });
+    
+    downloadURI(YT_AUDIO_URL + url.trim());
   };
 
   return (
@@ -116,6 +91,12 @@ export default function AudioPage() {
             label="Youtube URL"
             variant="outlined"
             onChange={(e) => setInputText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                onSearchClick();
+              }
+            }}
           />
           <Box>
             <Button

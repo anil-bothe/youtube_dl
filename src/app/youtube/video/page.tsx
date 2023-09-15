@@ -18,13 +18,19 @@ export default function AudioPage() {
     dispatch(setPageLoading({ isLoading: false, msg: "" }));
   });
 
-  function downloadURI(uri: string, file_name: string) {
+  function downloadURI(uri: string) {
     let link = document.createElement("a");
     link.href = uri;
-    link.download = file_name + ".mp4";
+    link.download = "youtube_video.mp4";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    setErrorMsg("Please wait download start shortly.");
+    setTimeout(() => {
+      setErrorMsg("");
+      setIsLoading(false);
+    }, 15000);
   }
 
   const onSearchClick = () => {
@@ -40,37 +46,7 @@ export default function AudioPage() {
       return;
     }
 
-    fetch(YT_VIDEO_URL + url.trim())
-      .then((res) => {
-        const header = res.headers.get("Content-Disposition");
-        const parts = header!.split(";");
-        
-        setErrorMsg("Converting ..");
-        return { blob: res.blob(), filename: parts[1].split("=")[1]};
-      })
-      .then(async (obj) => {
-        const blob: Promise<Blob> = obj.blob;
-        const filename = obj.filename.trim().split(".mp4")[0];
-        
-        if ((await blob).size == 0) {
-          setErrorMsg("File not converted! Something went wrong :(");
-          setIsLoading(false);
-          return;
-        }
-
-        setErrorMsg("Almost done ..");
-        const downloadUrl = window.URL.createObjectURL(await blob);
-        downloadURI(downloadUrl, filename);
-        URL.revokeObjectURL(downloadUrl);
-
-        setIsLoading(false);
-        setErrorMsg("Thanks for downloading ..");
-      })
-      .catch((e) => {
-        console.log(e)
-        setErrorMsg("Something went wrong!");
-        setIsLoading(false);
-      });
+    downloadURI(YT_VIDEO_URL + url.trim());
   };
 
   return (
@@ -116,6 +92,12 @@ export default function AudioPage() {
             label="Youtube URL"
             variant="outlined"
             onChange={(e) => setInputText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                onSearchClick();
+              }
+            }}
           />
           <Box>
             <Button
