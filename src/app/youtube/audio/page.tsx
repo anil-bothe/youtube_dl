@@ -5,14 +5,14 @@ import { Box, Button, Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { setPageLoading } from "../../../components/counterSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { setPageLoading } from "@/redux/counterSlice";
 
 export default function AudioPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [url, setInputText] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(setPageLoading({ isLoading: false, msg: "" }));

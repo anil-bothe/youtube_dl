@@ -5,21 +5,21 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import { useRouter } from "next/navigation";
-import { setPageLoading } from "../components/counterSlice";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { setPageLoading } from "../redux/counterSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+
 
 export default function Home() {
   const router = useRouter();
-  const isPageLoading = useSelector(
+  const isPageLoading = useAppSelector(
     (state: any) => state.counter.isPageLoading
   );
   
-  const msg = useSelector(
+  const msg = useAppSelector(
     (state: any) => state.counter.pageLoadingMsg
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   function goToURL(url: string) {
     dispatch(setPageLoading({isLoading: true, msg: url}));

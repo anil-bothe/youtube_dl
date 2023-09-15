@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPageLoading } from "../components/counterSlice";
+import { setPageLoading } from "../redux/counterSlice";
 
 export default function Sidebar() {
   const [open, setOpen] = React.useState(true);

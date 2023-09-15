@@ -1,18 +1,18 @@
 "use client";
+import { setPageLoading } from "@/redux/counterSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { YT_VIDEO_URL } from "@/utility/constants";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Button, Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { setPageLoading } from "../../../components/counterSlice";
 
 export default function AudioPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [url, setInputText] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(setPageLoading({ isLoading: false, msg: "" }));
@@ -28,7 +28,7 @@ export default function AudioPage() {
   }
 
   const onSearchClick = () => {
-    //https://www.youtube.com/watch?v=S3Dpfyc15qQ
+    // https://www.youtube.com/watch?v=S3Dpfyc15qQ
 
     setIsLoading(true);
     setErrorMsg("Getting Info ..");
