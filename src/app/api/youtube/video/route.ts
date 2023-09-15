@@ -11,11 +11,11 @@ export async function GET(request: Request, response: Response) {
     return NextResponse.json({ data: "No URL" });
   }
 
-  const videoMetaData = await ytdl.getBasicInfo(url);
+  // const videoMetaData = await ytdl.getBasicInfo(url);
 
   responseHeaders.set(
     "Content-Disposition",
-    `attachment; filename="${videoMetaData.videoDetails.title}.mp4"`
+    `attachment; filename="youtube-video.mp4"`
   );
 
   responseHeaders.set("Content-Type", "video/mp4");
