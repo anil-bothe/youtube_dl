@@ -42,7 +42,7 @@ export default function AudioPage() {
     setIsLoading(true);
     setErrorMsg("Getting Info ..");
 
-    if (url.indexOf("youtube") == -1) {
+    if (url.indexOf("youtu") == -1) {
       setErrorMsg("Please enter valid URL");
       setIsLoading(false);
       return;
