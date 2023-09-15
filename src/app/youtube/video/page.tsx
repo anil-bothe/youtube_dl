@@ -3,9 +3,12 @@ import { setPageLoading } from "@/redux/counterSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { YT_VIDEO_URL } from "@/utility/constants";
 import SearchIcon from "@mui/icons-material/Search";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
+import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
+import { styled } from "@mui/material/styles";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function AudioPage() {
@@ -38,7 +41,6 @@ export default function AudioPage() {
 
     setIsLoading(true);
     setErrorMsg("Getting Info ..");
-    console.log(url);
 
     if (url.indexOf("youtube") == -1) {
       setErrorMsg("Please enter valid URL");
@@ -49,57 +51,47 @@ export default function AudioPage() {
     downloadURI(YT_VIDEO_URL + url.trim());
   };
 
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: "transparent",
+    boxShadow: "none",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  }));
+
   return (
     <main style={{ position: "relative", height: "91vh" }}>
-      <Box
-        sx={{
-          backgroundImage: "url(/chaitanya_mahaprabhu.jpg)",
-          height: "100%",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "brightness(50%)",
-        }}
-      ></Box>
-      <Box
-        sx={{
-          p: 10,
-          position: "absolute",
-          top: "40%",
-          width: 720,
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-        className="bg-light form"
-      >
-        <Box sx={{ mb: 10 }}>
-          <Typography color="warning" component="h2" fontSize={25}>
+      <Box className="background-image"></Box>
+      <Box className="parentBoxLayout">
+        <Box className="childrenBoxLayout1">
+          <Image alt="Insta Logo" src="/youtube.png" width={359 - 275} height={253 - 200} />
+          <Typography color="warning" component="h2" className="medium-font">
             <strong>Youtube To MP4 Converter.</strong>
           </Typography>
-          <Typography color="warning">Unlimited downloads & free</Typography>
+          <Typography className="txt-gray" color="warning">
+            Unlimited downloads & free
+          </Typography>
         </Box>
 
-        <Box
-          component="form"
-          sx={{ my: 2, display: "flex", justifyContent: "space-between" }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            size="small"
-            sx={{ width: "100%", mr: 2 }}
-            id="outlined-basic"
-            label="Youtube URL"
-            variant="outlined"
-            onChange={(e) => setInputText(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                onSearchClick();
-              }
-            }}
-          />
-          <Box>
+        <Grid container spacing={2}>
+          <Grid item md={8} xs={12}>
+            <TextField
+              size="small"
+              sx={{ width: "100%", mr: 2 }}
+              id="outlined-basic"
+              label="Youtube URL"
+              variant="outlined"
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyDown={(k) => {
+                if (k.key === "Enter") {
+                  k.preventDefault();
+                  onSearchClick();
+                }
+              }}
+            />
+          </Grid>
+          <Grid item md={4} xs={12}>
             <Button
               size="medium"
               variant="contained"
@@ -109,27 +101,28 @@ export default function AudioPage() {
             >
               Search
             </Button>
-          </Box>
-        </Box>
-
-        {isLoading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <CircularProgress /> {errorMsg} ...
-          </Box>
-        ) : (
-          <Box textAlign="center">
-            <Typography sx={{ color: "blueviolet" }}>
-              {errorMsg != "" ? errorMsg : "We are happy to help you ! "}
-            </Typography>
-          </Box>
-        )}
+          </Grid>
+          <Grid item md={12} xs={12}>
+            {isLoading ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 2,
+                }}
+              >
+                <CircularProgress /> {errorMsg} ...
+              </Box>
+            ) : (
+              <Box textAlign="center">
+                <Typography sx={{ color: "blueviolet" }}>
+                  {errorMsg != "" ? errorMsg : "We are happy to help you ! "}
+                </Typography>
+              </Box>
+            )}
+          </Grid>
+        </Grid>
       </Box>
     </main>
   );

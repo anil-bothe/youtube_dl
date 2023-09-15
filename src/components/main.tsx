@@ -13,11 +13,8 @@ export default function MainLayout({ children }: { children: ReactNode }) {
   };
 
   return (
-    <Box
-      sx={{ display: "flex" }}
-      className={!isMenuOpen ? "menu-open" : "menu-close"}
-    >
-      <Box>
+    <Box>
+      <Box className={!isMenuOpen ? "menu-open" : "menu-close"}>
         <Sidebar />
       </Box>
       <Box width="100%">

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
@@ -8,21 +8,18 @@ import { useRouter } from "next/navigation";
 import { setPageLoading } from "../redux/counterSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
-
 export default function Home() {
   const router = useRouter();
   const isPageLoading = useAppSelector(
     (state: any) => state.counter.isPageLoading
   );
-  
-  const msg = useAppSelector(
-    (state: any) => state.counter.pageLoadingMsg
-  );
+
+  const msg = useAppSelector((state: any) => state.counter.pageLoadingMsg);
 
   const dispatch = useAppDispatch();
 
   function goToURL(url: string) {
-    dispatch(setPageLoading({isLoading: true, msg: url}));
+    dispatch(setPageLoading({ isLoading: true, msg: url }));
     router.push(url);
   }
 
@@ -33,86 +30,29 @@ export default function Home() {
 
   return (
     <main style={{ position: "relative", height: "91vh" }}>
-      <Box
-        sx={{
-          backgroundImage: "url(/chaitanya_mahaprabhu.jpg)",
-          height: "100%",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "brightness(50%)",
-        }}
-      ></Box>
-      <Box
-        sx={{
-          p: 10,
-          position: "absolute",
-          top: "40%",
-          left: "50%",
-          width: 720,
-          transform: "translate(-50%, -50%)",
-        }}
-        className="bg-light form"
-      >
-        <Box sx={{ mb: 5 }}>
-          <Typography color="warning" component="h2" fontSize={25}>
-            <strong>Youtube, Instagram MP4 & MP3 Converter</strong>
+      <Box className="background-image"></Box>
+      <Box className="parentBoxLayout">
+        <Box className="childrenBoxLayout1">
+          <Typography color="warning" component="h1" className="large-font">
+            <strong>Social Media Downloader</strong>
           </Typography>
-          <Typography color="warning">
-            Click on the following button to download the appropriate file.
+          <Typography className="txt-gray" color="warning">
+            Unlimited downloads & free.
           </Typography>
         </Box>
 
-        <Box
-          component="div"
-          sx={{
-            mb: 2,
-            gap: 2,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Button
-            size="small"
-            disabled={isPageLoading}
-            variant="contained"
-            color="info"
-            startIcon={<HeadphonesIcon />}
-            onClick={() => goToURL("/youtube/audio")}
-          >
-            Youtube Audios
-          </Button>
-
-          <Button
-            size="small"
-            variant="contained"
-            disabled={isPageLoading}
-            color="error"
-            startIcon={<YouTubeIcon />}
-            onClick={() => goToURL("/youtube/video")}
-          >
-            Youtube Videos
-          </Button>
-
-          <Button
-            size="small"
-            variant="contained"
-            disabled={isPageLoading}
-            color="secondary"
-            startIcon={<InstagramIcon />}
-            onClick={() => goToURL("/insta")}
-          >
-            Instagram videos
-          </Button>
-        </Box>
-        {isPageLoading ? (
-          <Box textAlign={"center"}>
-            <Typography>Please wait URL is opening: {msg}</Typography>
-          </Box>
-        ) : (
-          ""
-        )}
+        <Grid container spacing={2}>
+          <Grid item md={4} xs={12}>
+            <Button title="Youtube to MP4" fullWidth variant="outlined" color="error" onClick={() => goToURL("/youtube/video")} startIcon={<YouTubeIcon />}>Youtube MP4</Button>
+          </Grid>
+          <Grid item md={4} xs={12}>
+            <Button title="Youtube to MP3" fullWidth variant="outlined" color="secondary" onClick={() => goToURL("/youtube/audio")} startIcon={<HeadphonesIcon />}>Youtube MP3</Button>
+          </Grid>
+          <Grid item md={4} xs={12}>
+            <Button title="Instagram to MP4" fullWidth variant="outlined" color="primary" onClick={() => goToURL("/insta")} startIcon={<InstagramIcon />}>Instagram MP4</Button>
+          </Grid>
+          <Grid item md={12} xs={12}></Grid>
+        </Grid>
       </Box>
     </main>
   );

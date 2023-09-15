@@ -38,9 +38,9 @@ export default function ButtonAppBar(props: customProps) {
             component="div"
             sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}
           >
-            <IconButton size="large" color="default">
+            {/* <IconButton size="large" color="default">
               <DownloadForOfflineIcon />
-            </IconButton>{" "}
+            </IconButton>{" "} */}
             Social Downloader
           </Typography>
           <IconButton href="/">

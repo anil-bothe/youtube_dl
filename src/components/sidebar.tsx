@@ -25,32 +25,28 @@ export default function Sidebar() {
     router.push(url);
   }
 
-  const handleClick = () => {
-    setOpen(!open);
-  };
-
   return (
     <Box>
       <List
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        sx={{height: "90vh", bgcolor: "background.paper" }}
         component="nav"
         aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader
-            component="h2"
-            id="nested-list-subheader"
-            sx={{
-              backgroundColor: "#FFC436",
-              p: 1,
-              display: "flex",
-              alignItems: "centrer",
-              justifyContent: "center",
-              boxShadow: "-2px 0px 4px #000",
-            }}
-          >
-            <strong>Admin Panel</strong>
-          </ListSubheader>
-        }
+        // subheader={
+        //   <ListSubheader
+        //     component="h2"
+        //     id="nested-list-subheader"
+        //     sx={{
+        //       backgroundColor: "#FFC436",
+        //       p: 1,
+        //       display: "flex",
+        //       alignItems: "centrer",
+        //       justifyContent: "center",
+        //       boxShadow: "-2px 0px 4px #000",
+        //     }}
+        //   >
+        //     <strong>Menu List</strong>
+        //   </ListSubheader>
+        // }
       >
         <ListItemButton href="/">
           <ListItemIcon>
